@@ -1,0 +1,118 @@
+.veiculos-adm-container {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
+  min-height: 100%;
+}
+
+.card-veiculo-figma {
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem 1.75rem 1.5rem;
+  color: #FFFFFF;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.card-veiculo-figma:hover {
+  transform: translateY(-2px);
+}
+
+.card-veiculo-ativo {
+  background-color: #9D00FF !important;
+}
+
+.card-veiculo-manutencao {
+  background-color: #CA85FF !important;
+}
+
+.card-veiculo-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #FFFFFF;
+}
+
+.card-veiculo-details {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #FFFFFF;
+  font-weight: 400;
+}
+
+.card-veiculo-details strong {
+  font-weight: 600;
+}
+
+.icon-acessibilidade {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  font-size: 1.4rem;
+  color: #FFFFFF;
+}
+
+.btn-fab-add {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2A0041 !important;
+  color: #FFFFFF !important;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1050;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(42, 0, 65, 0.3) !important;
+}
+
+.btn-fab-add:hover {
+  background-color: #380143 !important;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(42, 0, 65, 0.4) !important;
+}
+
+.btn-fab-add:active {
+  transform: scale(0.95);
+}
+
+.card-veiculo-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.card-veiculo-figma:hover .card-veiculo-actions {
+  opacity: 1;
+}
+
+.btn-action-veiculo {
+  background: rgba(0, 0, 0, 0.25);
+  border: none;
+  color: #FFFFFF;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-action-veiculo:hover {
+  background: rgba(0, 0, 0, 0.45);
+}

@@ -1,0 +1,47 @@
+.route-box {
+  max-width: 800px;
+  border: 1px solid #4A255A;
+  border-radius: 8px;
+  padding: 1.5rem 2rem;
+  background-color: white;
+}
+
+.route-stop {
+  color: #000;
+  font-size: 0.95rem;
+}
+
+.route-arrow {
+  color: #000;
+  font-size: 1rem;
+}
+
+.action-buttons {
+  max-width: 800px;
+}
+
+.btn-report {
+  background-color: #2A0041 !important;
+  border-color: #2A0041 !important;
+  flex: 1;
+  min-width: 250px;
+  border-radius: 6px;
+}
+
+.btn-report:hover {
+  background-color: #1A002A !important;
+  border-color: #1A002A !important;
+}
+
+.btn-passengers {
+  background-color: #9D00FF !important;
+  border-color: #9D00FF !important;
+  flex: 1;
+  min-width: 250px;
+  border-radius: 6px;
+}
+
+.btn-passengers:hover {
+  background-color: #8800DD !important;
+  border-color: #8800DD !important;
+}

@@ -1,0 +1,35 @@
+.veiculos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.veiculo-card {
+  width: 100%;
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.veiculo-card.ativo {
+  background-color: #9D00FF;
+}
+
+.veiculo-card.manutencao {
+  background-color: #C47DFF;
+}
+
+.veiculo-info p {
+  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.accessibility-icon {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+}

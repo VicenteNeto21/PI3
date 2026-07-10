@@ -1,0 +1,322 @@
+/* ============================================================
+   Perfil.css — Responsivo e profissional (8px radius global)
+   ============================================================ */
+
+.perfil-container {
+  width: 100%;
+  max-width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #0F172A;
+}
+
+/* ─── Header & Navigation ─── */
+.btn-back-profile {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-back-profile:hover {
+  background-color: #F1F5F9;
+  border-color: #CBD5E1;
+  color: #0F172A;
+}
+
+.profile-page-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.profile-page-subtitle {
+  font-size: 0.8rem;
+  color: #64748B;
+  margin: 0;
+}
+
+/* ─── Hero Profile Card ─── */
+.perfil-hero-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.perfil-hero-accent-bar {
+  height: 5px;
+  background: linear-gradient(90deg, #2A0041 0%, #7E22CE 50%, #9D00FF 100%);
+}
+
+.perfil-hero-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.perfil-user-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.perfil-avatar-box {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2A0041 0%, #9D00FF 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.user-name-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.role-badge-pill {
+  background-color: #F3E8FF;
+  color: #6B21A8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  display: inline-block;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.user-department-info {
+  font-size: 0.85rem;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.matricula-tag {
+  background-color: #F1F5F9;
+  color: #334155;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* ─── Section Cards ─── */
+.perfil-section-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: 100%;
+}
+
+.section-header-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0 0 1.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+/* ─── Info Grid ─── */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.info-field-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+
+.info-field-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0F172A;
+  word-break: break-word;
+}
+
+/* ─── Stats ─── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.stat-item-box {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 0.875rem 0.75rem;
+  text-align: center;
+}
+
+.stat-value-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #7E22CE;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label-text {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* ─── Preferences ─── */
+.preference-list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid #F1F5F9;
+  gap: 1rem;
+}
+
+.preference-list-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pref-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0F172A;
+  margin-bottom: 0.15rem;
+}
+
+.pref-desc {
+  font-size: 0.775rem;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.form-check-input {
+  cursor: pointer;
+  width: 2.25em;
+  height: 1.2em;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.form-check-input:checked {
+  background-color: #7E22CE;
+  border-color: #7E22CE;
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.15rem rgba(126, 34, 206, 0.15);
+}
+
+/* ─── Buttons ─── */
+.btn-primary-purple {
+  background: #7E22CE;
+  color: #FFFFFF;
+  border: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-primary-purple:hover {
+  background: #6B21A8;
+  color: #FFFFFF;
+}
+
+.btn-outline-gray {
+  background: #FFFFFF;
+  color: #475569;
+  border: 1px solid #CBD5E1;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-outline-gray:hover {
+  background: #F8FAFC;
+  color: #0F172A;
+}
+
+/* ─── Responsividade ─── */
+@media (max-width: 576px) {
+  .perfil-hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .profile-page-title {
+    font-size: 1.1rem;
+  }
+
+  .profile-page-subtitle {
+    display: none;
+  }
+
+  .btn-primary-purple,
+  .btn-outline-gray {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,232 @@
+.minha-rota-aluno-container {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100%;
+  background-color: #FFFFFF;
+}
+
+.aluno-header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.enquete-card {
+  width: 100%;
+  max-width: 100%;
+  flex-grow: 1;
+  background-color: #FFFFFF;
+  border: 1px solid #5C2078;
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-paradas-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.enquete-timeline-track {
+  width: 96%;
+  height: 30px;
+  margin: 0.5rem auto 1.75rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.enquete-timeline-node {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.enquete-timeline-node.dark-node {
+  background-color: #2A0041;
+  box-shadow: 0 0 0 3px rgba(42, 0, 65, 0.15);
+}
+
+.enquete-timeline-node.light-node {
+  background-color: #8C00FF;
+}
+
+.enquete-timeline-line {
+  height: 10px;
+  border-radius: 5px;
+  flex-grow: 1;
+  margin: 0 6px;
+  transition: all 0.3s ease;
+}
+
+.enquete-timeline-line.dark-line {
+  background-color: #2A0041;
+}
+
+.enquete-timeline-line.light-line {
+  background-color: #8C00FF;
+}
+
+.enquete-btn-ponto {
+  width: 100%;
+  background-color: #8C00FF;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.enquete-btn-ponto:hover {
+  background-color: #7800DB;
+}
+
+.enquete-btn-ponto.selecionado {
+  background-color: #2A0041;
+  border: 1px solid #8C00FF;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(42, 0, 65, 0.25);
+}
+
+.enquete-btn-horario {
+  width: 100%;
+  background-color: #FFFFFF;
+  color: #1A1A1A;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 2px solid #8C00FF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enquete-btn-horario:hover {
+  background-color: #F8F0FF;
+  border-color: #7800DB;
+}
+
+.enquete-btn-horario.selecionado {
+  background-color: #2A0041;
+  color: #FFFFFF;
+  border-color: #2A0041;
+  box-shadow: 0 4px 12px rgba(42, 0, 65, 0.25);
+}
+
+.btn-proximo-figma {
+  background-color: #2A0041;
+  color: #FFFFFF;
+  border: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 0.95rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-proximo-figma:hover:not(:disabled) {
+  background-color: #3B005A;
+}
+
+.btn-proximo-figma:disabled {
+  background-color: #CCCCCC;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.confirma-box-card {
+  border: 1px solid #5C2078;
+  border-radius: 14px;
+  padding: 1.5rem;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+/* Accordion de Motoristas (Fiel ao protótipo cinza) */
+.motorista-accordion-item {
+  background-color: #E6E6E6;
+  border: 1px solid #D9D9D9;
+  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  color: #1A1A1A;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.motorista-accordion-item:hover {
+  background-color: #DCDCDC;
+}
+
+.motorista-accordion-item.open {
+  background-color: #DCDCDC;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+}
+
+.motorista-accordion-body {
+  background-color: #F8F9FA;
+  border: 1px solid #D9D9D9;
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 1.25rem;
+  font-size: 0.9rem;
+  color: #333333;
+}
+
+.rota-group-box {
+  background-color: #F8F9FA;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.rota-group-box:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 768px) {
+  .enquete-card {
+    padding: 1.25rem 1rem;
+    border-radius: 12px;
+  }
+  .enquete-btn-ponto {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+  }
+  .enquete-timeline-track {
+    width: 90%;
+  }
+  .motorista-accordion-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}

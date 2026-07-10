@@ -1,0 +1,152 @@
+.cadastro-aluno-container {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  padding: 2rem 1.5rem;
+}
+
+.form-passenger-wrapper {
+  background: transparent;
+  border: none !important;
+  box-shadow: none !important;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.custom-figma-header-container {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.banner-siti-cut-purple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110px;
+  background: linear-gradient(90deg, #080010 0%, #35005C 30%, #7600C2 60%, #9D00FF 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 48%, 290px 48%, 240px 100%, 0 100%);
+  border-radius: 8px 8px 0 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header-title-notch {
+  position: absolute;
+  top: 53px;
+  left: 290px;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.page-sub-title-figma {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  text-align: center;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .banner-siti-cut-purple {
+    clip-path: polygon(0 0, 100% 0, 100% 48%, 180px 48%, 140px 100%, 0 100%);
+  }
+  .header-title-notch {
+    left: 180px;
+  }
+  .page-sub-title-figma {
+    font-size: 1.05rem;
+  }
+}
+
+.section-card-figma {
+  background: #FFFFFF;
+  border: 1px solid #E2E2E2;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: none !important;
+}
+
+.section-title-figma {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.label-passenger-figma {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.input-passenger-figma {
+  background-color: #EBEBEB !important;
+  border: 1px solid #E0E0E0 !important;
+  border-radius: 6px !important;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  width: 100%;
+  color: #2D2D2D !important;
+  margin-bottom: 0.85rem;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+}
+
+.input-passenger-figma:focus {
+  outline: none;
+  background-color: #DDD !important;
+  border-color: #9D00FF !important;
+  box-shadow: none !important;
+}
+
+.file-box-figma {
+  background-color: #EBEBEB;
+  border: 1px solid #D8D8D8;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 0.85rem;
+}
+
+.text-mandatory-figma {
+  color: #DC3545;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.btn-aprovar-figma {
+  background-color: #9D00FF !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem 2.75rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-aprovar-figma:hover {
+  background-color: #8A00E0 !important;
+}

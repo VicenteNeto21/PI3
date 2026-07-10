@@ -1,0 +1,84 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(circle at 0% 0%, #000000 0%, #9D00FF 60%, #380143 100%);
+  background-color: #000000;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  padding: 1.5rem;
+}
+
+.login-content {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.login-card {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 3rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.login-card h2 {
+  color: #000;
+}
+
+.role-selector {
+  border-bottom: 1px solid #EEEEEE;
+  padding-bottom: 0.5rem;
+}
+
+.role-btn {
+  background: #F8F9FA;
+  border: 1px solid #E9ECEF;
+  border-radius: 6px;
+  padding: 0.5rem 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.role-btn:hover {
+  background: #E2E8F0;
+  border-color: #CBD5E1;
+}
+
+.role-btn.active {
+  background: #2A0041;
+  color: #FFFFFF;
+  border-color: #2A0041;
+  box-shadow: 0 4px 10px rgba(42, 0, 65, 0.25);
+}
+
+.forgot-password {
+  color: #0000EE;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.forgot-password:hover {
+  color: #0000BB;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .login-container {
+    padding: 2rem 1rem;
+    align-items: flex-start;
+  }
+
+  .login-logo-container img {
+    max-width: 250px;
+  }
+}

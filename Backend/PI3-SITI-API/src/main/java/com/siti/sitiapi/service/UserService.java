@@ -1,0 +1,69 @@
+package com.siti.sitiapi.service;
+
+import com.siti.sitiapi.dto.ErrorResponse;
+import com.siti.sitiapi.dto.RegisterRequest;
+import com.siti.sitiapi.dto.RegisterResponse;
+import com.siti.sitiapi.exception.BusinessException;
+import com.siti.sitiapi.model.User;
+import com.siti.sitiapi.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import java.util.UUID;
+@Service
+public class UserService {
+
+    private final UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    public RegisterResponse register(RegisterRequest request) {
+        if (repository.existsByEmail(request.getEmail())) {
+            throw new BusinessException(
+                    new ErrorResponse(400, "Email já utilizado!", "/users/register")
+            );
+        }
+
+        String name = request.getEmail().split("@")[0];
+
+        repository.create(
+                request.getEmail(),
+                request.getPassword(),
+                request.getIdentifierDocument(),
+                name
+        );
+
+        User user = repository.findByEmail(request.getEmail());
+
+        RegisterResponse response = new RegisterResponse();
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        return response;
+    }
+
+    public RegisterResponse registerAdmin(com.siti.sitiapi.dto.AdminRegisterRequest request) {
+        if (repository.existsByEmail(request.getEmail())) {
+            throw new BusinessException(
+                    new ErrorResponse(400, "Email já utilizado!", "/users/admin/register")
+            );
+        }
+
+        // CNPJ basic validation or any other check can go here
+        
+        repository.createAdmin(
+                request.getEmail(),
+                request.getPassword(),
+                request.getCnpj(),
+                request.getCompanyName(),
+                request.getCity(),
+                request.getState()
+        );
+
+        User user = repository.findByEmail(request.getEmail());
+
+        RegisterResponse response = new RegisterResponse();
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        return response;
+    }
+}
