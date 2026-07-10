@@ -98,6 +98,19 @@ public class DriverController {
         }
     }
 
+    @GetMapping("/driver/passengers-by-stop")
+    public ResponseEntity<?> getPassengersByStop(@RequestAttribute("userActivate") String email, @RequestAttribute("role") String role) {
+        if (!"DRIVE".equals(role) && !"ADMIN".equals(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        try {
+            return ResponseEntity.ok(driverService.getPassengersByStop(email));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage() != null ? e.getMessage() : e.getClass().getName()));
+        }
+    }
+
     @PutMapping("/driver/passengers/{passengerId}/status")
     public ResponseEntity<?> updatePassengerStatus(@PathVariable Long passengerId, @RequestBody Map<String, Object> payload, @RequestAttribute("role") String role) {
         if (!"DRIVE".equals(role) && !"ADMIN".equals(role)) {

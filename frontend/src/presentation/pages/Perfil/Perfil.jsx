@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -9,13 +9,19 @@ import {
   faBus, 
   faPenToSquare, 
   faCheck, 
-  faXmark 
+  faXmark,
+  faRoute,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 import { usePerfil } from '../../hooks/usePerfil';
+import { httpClient } from '../../../data/api/httpClient';
 import './Perfil.css';
 
 export const Perfil = () => {
   const navigate = useNavigate();
+  const [trips, setTrips] = useState([]);
+  const [tripsLoading, setTripsLoading] = useState(false);
+
   const {
     userProfile,
     loading,
@@ -28,6 +34,13 @@ export const Perfil = () => {
     handleChange,
     handleSave
   } = usePerfil();
+
+  useEffect(() => {
+    setTripsLoading(true);
+    httpClient.get('/passenger/trips').then((data) => {
+      if (data && Array.isArray(data)) setTrips(data);
+    }).catch(() => {}).finally(() => setTripsLoading(false));
+  }, []);
 
   if (loading) {
     return (
@@ -351,6 +364,35 @@ export const Perfil = () => {
               </div>
             </div>
           </div>
+
+          {/* Minhas Viagens (passageiro) */}
+          {trips.length > 0 && (
+            <div className="perfil-section-card">
+              <h4 className="section-header-title">
+                <FontAwesomeIcon icon={faRoute} style={{ color: '#7E22CE' }} />
+                Minhas Viagens
+              </h4>
+              {tripsLoading ? (
+                <div className="text-center py-3">
+                  <FontAwesomeIcon icon={faSpinner} spin style={{ color: '#7E22CE' }} />
+                </div>
+              ) : (
+                <div className="d-flex flex-column gap-2">
+                  {trips.map((t, idx) => (
+                    <div key={t.tripId || idx} className="d-flex justify-content-between align-items-center p-2 rounded-3" style={{ backgroundColor: '#FAF5FF' }}>
+                      <div>
+                        <div className="fw-bold small">{t.routeName || t.routeCode || `Viagem ${idx + 1}`}</div>
+                        <div className="text-muted" style={{ fontSize: '0.75rem' }}>{t.date} - {t.bus || ''}</div>
+                      </div>
+                      <span className={`badge ${t.status === 'Concluída' || t.status === 'Concluido' ? 'bg-success' : 'bg-warning text-dark'} rounded-pill`}>
+                        {t.status || 'Pendente'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

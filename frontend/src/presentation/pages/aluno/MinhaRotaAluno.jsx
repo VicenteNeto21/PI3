@@ -3,9 +3,52 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faArrowLeft, faWheelchair } from '@fortawesome/free-solid-svg-icons';
 import { ProfileIcon } from '../../components/ProfileIcon/ProfileIcon';
 import { useAuth } from '../../hooks/useAuth';
-import { storage } from '../../../data/api/httpClient';
+import { httpClient, storage } from '../../../data/api/httpClient';
 import { PollRepository } from '../../../data/repositories/PollRepository';
 import './MinhaRotaAluno.css';
+
+const MOCK_ROTAS = [
+  {
+    linha: 'Linha 01 - Centro / Universitária',
+    motorista: 'Everton Peres Neto',
+    telefone: '(88) 9999-9999',
+    veiculo: 'ABC-1234 (Volare W9)',
+    pontos: [
+      'Cosmos',
+      'Praça da Matriz',
+      'Praça Gentil Cardoso',
+      'Policlínica',
+      'UFC - Campus Benfica'
+    ]
+  },
+  {
+    linha: 'Linha 02 - Sul / Campus Novo',
+    motorista: 'Roberto Silva',
+    telefone: '(85) 98888-7777',
+    veiculo: 'DEF-5678 (Mercedes OF-1519)',
+    pontos: [
+      'Terminal Sul',
+      'Shopping Sul',
+      'Praça da Estação',
+      'Hospital Regional',
+      'IFCE - Campus Central',
+      'UFC - Campus Pici'
+    ]
+  },
+  {
+    linha: 'Linha 03 - Norte / Itaperi',
+    motorista: 'Marcos Oliveira',
+    telefone: '(85) 97777-6666',
+    veiculo: 'GHI-9012 (Volksbus 15.190)',
+    pontos: [
+      'Terminal Norte',
+      'Av. Dom Luís',
+      'Praça Portugal',
+      'UECE - Campus Itaperi',
+      'Centro Universitário (UNIFOR)'
+    ]
+  }
+];
 
 export const MinhaRotaAluno = ({ tipo = 'Saída' }) => {
   const { currentUser } = useAuth();
@@ -13,48 +56,31 @@ export const MinhaRotaAluno = ({ tipo = 'Saída' }) => {
   const horarioKey = `${storageKey}_horarios_lista`;
   const submittedKey = `${storageKey}_enviado`;
 
-  const rotasCompletas = [
-    {
-      linha: 'Linha 01 - Centro / Universitária',
-      motorista: 'Everton Peres Neto',
-      telefone: '(88) 9999-9999',
-      veiculo: 'ABC-1234 (Volare W9)',
-      pontos: [
-        'Cosmos',
-        'Praça da Matriz',
-        'Praça Gentil Cardoso',
-        'Policlínica',
-        'UFC - Campus Benfica'
-      ]
-    },
-    {
-      linha: 'Linha 02 - Sul / Campus Novo',
-      motorista: 'Roberto Silva',
-      telefone: '(85) 98888-7777',
-      veiculo: 'DEF-5678 (Mercedes OF-1519)',
-      pontos: [
-        'Terminal Sul',
-        'Shopping Sul',
-        'Praça da Estação',
-        'Hospital Regional',
-        'IFCE - Campus Central',
-        'UFC - Campus Pici'
-      ]
-    },
-    {
-      linha: 'Linha 03 - Norte / Itaperi',
-      motorista: 'Marcos Oliveira',
-      telefone: '(85) 97777-6666',
-      veiculo: 'GHI-9012 (Volksbus 15.190)',
-      pontos: [
-        'Terminal Norte',
-        'Av. Dom Luís',
-        'Praça Portugal',
-        'UECE - Campus Itaperi',
-        'Centro Universitário (UNIFOR)'
-      ]
-    }
-  ];
+  const [rotasCompletas, setRotasCompletas] = useState(MOCK_ROTAS);
+  const [driverContact, setDriverContact] = useState(null);
+
+  useEffect(() => {
+    httpClient.get('/passenger/routes').then((data) => {
+      if (data && Array.isArray(data) && data.length > 0) {
+        const mapeadas = data.map((r) => ({
+          linha: r.name || r.nome || `Rota ${r.code || r.id}`,
+          motorista: r.driverName || MOCK_ROTAS.find(m => m.linha.includes(r.name?.split(' - ')[0] || ''))?.motorista || 'Motorista',
+          telefone: r.driverPhone || MOCK_ROTAS.find(m => m.linha.includes(r.name?.split(' - ')[0] || ''))?.telefone || '(00) 0000-0000',
+          veiculo: r.bus || r.vehicle || MOCK_ROTAS.find(m => m.linha.includes(r.name?.split(' - ')[0] || ''))?.veiculo || 'Ônibus',
+          pontos: Array.isArray(r.stops) ? r.stops : []
+        }));
+        setRotasCompletas(mapeadas);
+      }
+    }).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    httpClient.get('/passenger/contacts').then((data) => {
+      if (data?.driver) {
+        setDriverContact(data.driver);
+      }
+    }).catch(() => {});
+  }, []);
 
   const [pontoSelecionado, setPontoSelecionado] = useState(() => {
     return storage.getItem(storageKey) || null;
@@ -108,15 +134,6 @@ export const MinhaRotaAluno = ({ tipo = 'Saída' }) => {
     '19:00'
   ]);
   const horarios = horariosEnquete;
-
-  useEffect(() => {
-    const pollRepo = new PollRepository();
-    pollRepo.getPollOptions(1).then((res) => {
-      if (res && Array.isArray(res.schedules) && res.schedules.length > 0) {
-        setHorariosEnquete(res.schedules.map(s => s.time || s));
-      }
-    }).catch(() => {});
-  }, []);
 
   useEffect(() => {
     const salvoPonto = storage.getItem(storageKey);
@@ -181,18 +198,33 @@ export const MinhaRotaAluno = ({ tipo = 'Saída' }) => {
     setStep(3);
   };
 
+  const [pollOptions, setPollOptions] = useState({ boardingStops: [], alightingStops: [], schedules: [] });
+
+  useEffect(() => {
+    const pollRepo = new PollRepository();
+    pollRepo.getPollOptions(1).then((res) => {
+      if (res) setPollOptions(res);
+      if (res && Array.isArray(res.schedules) && res.schedules.length > 0) {
+        setHorariosEnquete(res.schedules.map(s => s.time || s));
+      }
+    }).catch(() => {});
+  }, []);
+
   const handleEnviar = async () => {
+    const boardingStop = pollOptions.boardingStops?.[0];
+    const alightingStop = pollOptions.alightingStops?.[0];
+    const schedule = pollOptions.schedules?.[0];
     try {
       const pollRepo = new PollRepository();
       await pollRepo.vote({
         pollId: 1,
-        boardingStopId: 1,
-        boardingScheduleId: 2,
-        alightingStopId: 4,
-        alightingScheduleId: 5
+        boardingStopId: boardingStop?.id || 1,
+        boardingScheduleId: schedule?.id || 2,
+        alightingStopId: alightingStop?.id || 4,
+        alightingScheduleId: schedule?.id || 5
       });
     } catch (e) {
-      // Falha silenciosa ou fallback local se o endpoint não estiver logado
+      // Falha silenciosa ou fallback local
     }
     storage.setItem(submittedKey, 'true');
     setIsSubmitted(true);
@@ -209,6 +241,7 @@ export const MinhaRotaAluno = ({ tipo = 'Saída' }) => {
     ? currentUser.name.split(' ')[0] 
     : 'Bruno';
 
+  const contatoAtual = driverContact || {};
   const rotaAtual = rotaSelecionada || rotasCompletas.find(r => r.pontos.includes(pontoSelecionado)) || rotasCompletas[0];
   const todosPontos = rotasCompletas.flatMap(r => r.pontos.map(p => ({ ponto: p, rota: r })));
 
@@ -425,8 +458,8 @@ export const MinhaRotaAluno = ({ tipo = 'Saída' }) => {
                   <h5 className="fw-bold text-dark text-center mb-4">Ônibus em Rota ({rotaAtual.veiculo})</h5>
                   <div className="text-start text-dark" style={{ fontSize: '1rem', lineHeight: '1.8' }}>
                     <div><strong>Linha:</strong> {rotaAtual.linha}</div>
-                    <div><strong>Motorista:</strong> {rotaAtual.motorista}</div>
-                    <div><strong>Telefone:</strong> {rotaAtual.telefone}</div>
+                    <div><strong>Motorista:</strong> {contatoAtual.name || rotaAtual.motorista}</div>
+                    <div><strong>Telefone:</strong> {contatoAtual.phone || rotaAtual.telefone}</div>
                     <div><strong>Ponto:</strong> {pontoSelecionado}</div>
                     <div><strong>Horário(s):</strong> {horariosSelecionados.join(', ')}</div>
                   </div>

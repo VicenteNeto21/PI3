@@ -10,24 +10,25 @@ export const useLocacoes = () => {
   const [locacoes, setLocacoes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchLocacoes = async () => {
-      setLoading(true);
-      try {
-        const data = await getLocacoesUseCase.execute();
-        setLocacoes(data);
-      } catch (error) {
-        logger.error('LOCAÇÕES', 'Erro ao buscar locações na API:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchLocacoes = async () => {
+    setLoading(true);
+    try {
+      const data = await getLocacoesUseCase.execute();
+      setLocacoes(data);
+    } catch (error) {
+      logger.error('LOCAÇÕES', 'Erro ao buscar locações na API:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchLocacoes();
   }, []);
 
   return {
     locacoes,
-    loading
+    loading,
+    refetch: fetchLocacoes
   };
 };

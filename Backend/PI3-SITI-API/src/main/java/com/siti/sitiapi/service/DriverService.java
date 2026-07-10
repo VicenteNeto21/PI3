@@ -159,9 +159,9 @@ public class DriverService {
         }
 
         List<Map<String, Object>> vehicles = jdbc.query(
-                "SELECT b.nickname, b.bus_model AS model, b.license_plate AS plate, b.manufacturing_year, " +
+                "SELECT b.id, b.nickname, b.bus_model AS model, b.license_plate AS plate, b.manufacturing_year, " +
                 "       b.capacity, CASE WHEN b.accessibility = 1 THEN 'Sim (Elevador)' ELSE 'Não' END AS accessibility, " +
-                "       COALESCE(b.operation_status, 'Excelente') AS status, " +
+                "       COALESCE(b.operation_status, 'Ativo') AS status, " +
                 "       r.name AS route_name " +
                 "FROM trips t " +
                 "JOIN buses b ON t.id_bus = b.id " +
@@ -169,13 +169,14 @@ public class DriverService {
                 "WHERE t.id_driver = ? AND t.date = CURRENT_DATE() LIMIT 1",
                 (rs, rowNum) -> {
                     Map<String, Object> map = new java.util.HashMap<>();
+                    map.put("id", rs.getLong("id"));
                     map.put("nickname", rs.getString("nickname") != null ? rs.getString("nickname") : "");
                     map.put("model", rs.getString("model") != null ? rs.getString("model") : "");
                     map.put("plate", rs.getString("plate") != null ? rs.getString("plate") : "");
                     map.put("year", rs.getString("manufacturing_year") != null ? rs.getString("manufacturing_year") : "");
                     map.put("capacity", rs.getInt("capacity"));
                     map.put("accessibility", rs.getString("accessibility") != null ? rs.getString("accessibility") : "Não");
-                    map.put("status", rs.getString("status") != null ? rs.getString("status") : "Excelente");
+                    map.put("status", rs.getString("status") != null ? rs.getString("status") : "Ativo");
                     map.put("route_name", rs.getString("route_name") != null ? rs.getString("route_name") : "");
                     return map;
                 },
@@ -187,6 +188,57 @@ public class DriverService {
         }
 
         return vehicles.get(0);
+    }
+
+    public List<Map<String, Object>> getPassengersByStop(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Motorista não encontrado.");
+        }
+
+        List<Map<String, Object>> trips = jdbc.query(
+                "SELECT t.id, r.name FROM trips t " +
+                "JOIN routes r ON t.id_route = r.id " +
+                "WHERE t.id_driver = ? AND t.date = CURRENT_DATE() LIMIT 1",
+                (rs, rowNum) -> Map.of("id", rs.getLong("id"), "name", rs.getString("name")),
+                user.getId()
+        );
+
+        if (trips.isEmpty()) {
+            return List.of();
+        }
+
+        Long tripId = (Long) trips.get(0).get("id");
+        List<Map<String, Object>> passengers = getPassengers(tripId);
+
+        Map<String, List<Map<String, Object>>> grouped = new java.util.LinkedHashMap<>();
+        for (Map<String, Object> p : passengers) {
+            String stop = (String) p.getOrDefault("boardingStop", "Sem parada definida");
+            grouped.computeIfAbsent(stop, k -> new ArrayList<>()).add(p);
+        }
+
+        List<Map<String, Object>> result = new ArrayList<>();
+        int index = 1;
+        for (Map.Entry<String, List<Map<String, Object>>> entry : grouped.entrySet()) {
+            List<Map<String, Object>> students = entry.getValue().stream().map(s -> {
+                boolean reqAcc = (boolean) s.getOrDefault("requiresAccessibility", false);
+                return Map.of(
+                    "id", s.get("id"),
+                    "nome", s.get("name"),
+                    "status", s.get("status"),
+                    "requiresAccessibility", reqAcc,
+                    "accessibilityDetail", reqAcc ? "Cadeirante - Necessita de Elevador" : ""
+                );
+            }).collect(java.util.stream.Collectors.toList());
+
+            result.add(Map.of(
+                "id", String.valueOf(index++),
+                "nome", entry.getKey(),
+                "estudantes", students
+            ));
+        }
+
+        return result;
     }
 
     public Map<String, Object> updateTripStatus(Long id, Map<String, Object> payload) {

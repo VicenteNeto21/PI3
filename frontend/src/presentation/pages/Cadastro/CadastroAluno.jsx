@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import logoSiti from '../../../assets/logo-siti.svg';
 import { maskCPF, maskDate, maskPhone } from '../../utils/masks';
+import { httpClient } from '../../../data/api/httpClient';
 import './CadastroAluno.css';
 
 export const CadastroAluno = () => {
@@ -51,11 +52,22 @@ export const CadastroAluno = () => {
     setLoading(true);
     setApiError('');
     try {
-      const { httpClient } = await import('../../../data/api/httpClient');
       await httpClient.post('/users/register', {
         email: formEmail,
         password: formSenha,
         identifierDocument: formCpf.replace(/\D/g, '') || '00000000000',
+        name: formNome || formEmail.split('@')[0],
+        phone: formTelefone.replace(/\D/g, ''),
+        birthDate: formNascimento || null,
+        type: formInstituicao || null,
+        course: formCurso || null,
+        street: formRua || null,
+        neighborhood: formBairro || null,
+        buildingNumber: formNumero || null,
+        complement: formComplemento || null,
+        deficiencies: formDeficiencias || null,
+        weekDays: formDias || null,
+        schedules: formHorarios || null,
       });
       setSubmitted(true);
     } catch (err) {

@@ -40,10 +40,11 @@ export class VeiculoRepository {
     return list.map(data => new Veiculo({
       id: data.id || data.vehicleId,
       placa: data.placa || data.plate || 'ABC-1234',
+      modelo: data.modelo || data.model || data.nickname || '',
       status: data.status || 'Ativo',
       capacidade: data.capacidade || data.capacity || 40,
       ano: data.ano || data.year || 2023,
-      acessibilidade: data.acessibilidade !== undefined ? data.acessibilidade : true
+      acessibilidade: data.acessibilidade !== undefined ? data.acessibilidade : (data.accessibility !== undefined ? data.accessibility : true)
     }));
   }
 }

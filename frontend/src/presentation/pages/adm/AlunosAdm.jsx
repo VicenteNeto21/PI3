@@ -10,7 +10,8 @@ import {
   faTimes, 
   faList, 
   faTh, 
-  faArrowLeft 
+  faArrowLeft,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../components/Button/Button';
 import { ProfileIcon } from '../../components/ProfileIcon/ProfileIcon';
@@ -28,6 +29,8 @@ export const AlunosAdm = () => {
   const [alertMsg, setAlertMsg] = useState('');
   const [showReprovarModal, setShowReprovarModal] = useState(false);
   const [justificativa, setJustificativa] = useState('');
+  const [reportsData, setReportsData] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
 
   // Alunos já Aprovados / Cadastrados
   const [cadastrados, setCadastrados] = useState([
@@ -323,6 +326,15 @@ export const AlunosAdm = () => {
             >
               <FontAwesomeIcon icon={view === 'figma' ? faList : faTh} />
               <span>{view === 'figma' ? 'Ver em Tabela' : 'Painel do Figma'}</span>
+            </button>
+            <button 
+              type="button"
+              className="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 px-3 py-2 rounded-3"
+              onClick={() => setView('reports')}
+              title="Relatório de passageiros por rota"
+            >
+              <FontAwesomeIcon icon={faFilePdf} />
+              <span>Relatórios</span>
             </button>
             <ProfileIcon />
           </div>
@@ -881,6 +893,69 @@ export const AlunosAdm = () => {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* VISÃO 6: RELATÓRIOS */}
+      {view === 'reports' && (
+        <div className="flex-grow-1 d-flex flex-column">
+          <div className="d-flex align-items-center gap-3 mb-4">
+            <button type="button" className="btn btn-outline-secondary px-3 py-2 rounded-3" onClick={() => setView('figma')}>
+              <FontAwesomeIcon icon={faArrowLeft} className="me-2" />Voltar
+            </button>
+            <h5 className="fw-bold text-dark m-0">Relatório de Passageiros por Rota</h5>
+            <button
+              type="button"
+              className="btn btn-outline-primary btn-sm px-3 py-2 rounded-3 ms-auto"
+              onClick={async () => {
+                setReportsLoading(true);
+                try {
+                  const data = await httpClient.get('/admin/reports/passengers');
+                  if (data && Array.isArray(data)) setReportsData(data);
+                } catch { setReportsData([]); }
+                setReportsLoading(false);
+              }}
+              disabled={reportsLoading}
+            >
+              <FontAwesomeIcon icon={faFilePdf} className="me-1" />
+              {reportsLoading ? 'Carregando...' : 'Atualizar Relatório'}
+            </button>
+          </div>
+
+          {reportsData.length > 0 ? (
+            <div className="card shadow-sm border-0 flex-grow-1">
+              <div className="card-body p-0">
+                <div className="table-responsive">
+                  <table className="table table-hover align-middle mb-0">
+                    <thead className="bg-light">
+                      <tr>
+                        <th className="ps-4">Rota</th>
+                        <th>Código</th>
+                        <th>Total de Passageiros</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reportsData.map((r, idx) => (
+                        <tr key={r.routeId || idx}>
+                          <td className="ps-4 fw-semibold text-dark">{r.routeName || r.name || `Rota ${idx + 1}`}</td>
+                          <td>{r.code || r.routeCode || '—'}</td>
+                          <td>{r.totalPassengers || r.passengerCount || r.total || 0}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-5 text-muted">
+              {reportsLoading ? (
+                <FontAwesomeIcon icon={faSpinner} spin size="2x" style={{ color: '#2A0041' }} />
+              ) : (
+                <p>Clique em "Atualizar Relatório" para carregar os dados.</p>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

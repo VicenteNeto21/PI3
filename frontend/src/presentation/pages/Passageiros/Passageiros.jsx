@@ -1,18 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faArrowLeft, 
   faLocationDot, 
-  faUserGraduate 
+  faUserGraduate,
+  faCheckCircle,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 import { useLocacoes } from '../../hooks/useLocacoes';
+import { httpClient, STORAGE_KEY, storage } from '../../../data/api/httpClient';
 import { ProfileIcon } from '../../components/ProfileIcon/ProfileIcon';
 import './Passageiros.css';
 
 export const Passageiros = () => {
   const navigate = useNavigate();
-  const { locacoes, loading } = useLocacoes();
+  const { locacoes, loading, refetch } = useLocacoes();
+  const [boardingId, setBoardingId] = useState(null);
+
+  const handleBoardPassenger = async (passengerId) => {
+    setBoardingId(passengerId);
+    try {
+      const stored = storage.getItem(STORAGE_KEY);
+      const role = stored ? JSON.parse(stored)?.role?.toUpperCase() : '';
+      if (role === 'DRIVE' || role === 'MOTORISTA') {
+        await httpClient.put(`/driver/passengers/${passengerId}/status`, { status: 'Embarcado' });
+      }
+      if (refetch) refetch();
+    } catch {
+      // fallback
+    }
+    setBoardingId(null);
+  };
 
   return (
     <div className="passageiros-container w-100 h-100 d-flex flex-column">
@@ -66,7 +85,26 @@ export const Passageiros = () => {
                         <FontAwesomeIcon icon={faUserGraduate} />
                       </div>
                       <span className="student-name">{est.nome}</span>
+                      {est.status && (
+                        <span className={`badge ${est.status === 'Embarcado' ? 'bg-success' : 'bg-warning text-dark'} ms-2`} style={{ fontSize: '0.7rem' }}>
+                          {est.status}
+                        </span>
+                      )}
                     </div>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-success rounded-pill px-3"
+                      onClick={() => handleBoardPassenger(est.id)}
+                      disabled={boardingId === est.id || est.status === 'Embarcado'}
+                    >
+                      {boardingId === est.id ? (
+                        <FontAwesomeIcon icon={faSpinner} spin />
+                      ) : est.status === 'Embarcado' ? (
+                        <><FontAwesomeIcon icon={faCheckCircle} className="me-1" />A bordo</>
+                      ) : (
+                        'Embarcar'
+                      )}
+                    </button>
                   </div>
                 ))}
               </div>

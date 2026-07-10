@@ -73,7 +73,7 @@ export const ModalVeiculo = ({ show, onClose, veiculo }) => {
               <input 
                 type="text" 
                 className="form-control modal-input" 
-                defaultValue={veiculo?.acessibilidade ? 'Sim (Possui Elevador)' : 'Não'} 
+                defaultValue={veiculo?.acessibilidade === true || veiculo?.acessibilidade === 'Sim (Elevador)' || veiculo?.acessibilidade === 'Sim' ? 'Sim (Possui Elevador)' : 'Não'} 
                 readOnly 
               />
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import { Logo } from '../../components/Logo/Logo';
 import { Input } from '../../components/Input/Input';
@@ -8,23 +8,38 @@ import { httpClient } from '../../../data/api/httpClient';
 import './RecuperarSenha.css';
 import '../Login/Login.css';
 
-export const RecuperarSenha = () => {
+export const ResetarSenha = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [sent, setSent] = useState(false);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token') || '';
+
+  const [novaSenha, setNovaSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e?.preventDefault();
-    if (!email) return;
+    if (!token) {
+      setError('Token de recuperação inválido ou expirado.');
+      return;
+    }
+    if (novaSenha.length < 8) {
+      setError('A senha deve ter pelo menos 8 caracteres.');
+      return;
+    }
+    if (novaSenha !== confirmarSenha) {
+      setError('As senhas não coincidem.');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
-      await httpClient.post('/auth/forgot-password', { email });
-      setSent(true);
+      await httpClient.post('/auth/reset-password', { token, newPassword: novaSenha });
+      setSuccess(true);
     } catch (err) {
-      setError(err.message || 'Erro ao enviar e-mail de recuperação.');
+      setError(err.message || 'Erro ao redefinir senha. Token pode ter expirado.');
     } finally {
       setLoading(false);
     }
@@ -34,62 +49,56 @@ export const RecuperarSenha = () => {
     <div className="recuperar-container">
       <Container className="recuperar-content">
         <Row className="w-100 align-items-center justify-content-between m-0">
-          {/* Lado Esquerdo - Logo SITI usando a classe exata login-logo-container da tela de Login */}
           <Col md={5} className="d-flex justify-content-center mb-5 mb-md-0">
             <div className="login-logo-container">
               <Logo />
             </div>
           </Col>
-          
-          {/* Lado Direito - Card com dimensões e paddings idênticos ao login-card */}
           <Col md={6} className="d-flex justify-content-center p-0">
             <div className="recuperar-card w-100">
-              <h2 className="text-center mb-4 fw-bold">Recuperar senha</h2>
-              
-              {sent ? (
+              <h2 className="text-center mb-4 fw-bold">Redefinir senha</h2>
+
+              {success ? (
                 <div className="text-center py-2">
                   <div className="alert alert-success py-3 px-2 mb-4" style={{ fontSize: '0.9rem', background: '#E8F8F0', borderColor: '#28A745', color: '#155724' }}>
-                    <strong>E-mail enviado!</strong> Verifique sua caixa de entrada e spam para redefinir sua senha.
+                    <strong>Senha redefinida!</strong> Faça login com sua nova senha.
                   </div>
-                  <Button 
-                    type="button" 
-                    className="mt-2 mb-3"
-                    onClick={() => setSent(false)}
-                  >
-                    Tentar outro e-mail
+                  <Button type="button" className="mt-2 mb-3" onClick={() => navigate('/')}>
+                    Ir para o Login
                   </Button>
-                  <a 
-                    href="#" 
-                    onClick={(e) => { e.preventDefault(); navigate('/'); }} 
-                    className="recuperar-link-entrar m-0 mt-3"
-                  >
-                    Entrar
-                  </a>
                 </div>
               ) : (
                 <Form onSubmit={handleSubmit} className="w-100 d-flex flex-column gap-3">
-                  <Form.Group controlId="formBasicEmail">
-                    <Input 
-                      type="email" 
-                      placeholder="E-mail" 
-                      value={email} 
-                      onChange={(e) => setEmail(e.target.value)} 
+                  <Form.Group controlId="formNewPassword">
+                    <Input
+                      type="password"
+                      placeholder="Nova senha"
+                      value={novaSenha}
+                      onChange={(e) => setNovaSenha(e.target.value)}
                     />
                   </Form.Group>
-                  
+                  <Form.Group controlId="formConfirmPassword">
+                    <Input
+                      type="password"
+                      placeholder="Confirmar nova senha"
+                      value={confirmarSenha}
+                      onChange={(e) => setConfirmarSenha(e.target.value)}
+                    />
+                  </Form.Group>
+
                   {error && (
                     <div className="alert alert-danger py-2 px-3 mb-0" style={{ fontSize: '0.85rem' }}>
                       {error}
                     </div>
                   )}
-                  
+
                   <Button type="submit" className="mt-2" onClick={handleSubmit} disabled={loading}>
-                    {loading ? 'Enviando...' : 'Enviar e-mail de recuperação'}
+                    {loading ? 'Redefinindo...' : 'Redefinir senha'}
                   </Button>
-                  
-                  <a 
-                    href="#" 
-                    onClick={(e) => { e.preventDefault(); navigate('/'); }} 
+
+                  <a
+                    href="#"
+                    onClick={(e) => { e.preventDefault(); navigate('/'); }}
                     className="recuperar-link-entrar"
                   >
                     Entrar

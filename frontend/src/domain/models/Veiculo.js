@@ -1,8 +1,9 @@
 export class Veiculo {
-  constructor({ id, placa, status, capacidade, ano, acessibilidade }) {
+  constructor({ id, placa, modelo, status, capacidade, ano, acessibilidade }) {
     this.id = id;
     this.placa = placa;
-    this.status = status; // Ex: 'Ativo', 'Manutenção'
+    this.modelo = modelo || '';
+    this.status = status;
     this.capacidade = capacidade;
     this.ano = ano;
     this.acessibilidade = acessibilidade;

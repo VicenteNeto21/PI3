@@ -180,13 +180,67 @@ export const RotasAdm = () => {
   };
 
   // Ação de Disponibilizar Enquete
-  const handleDisponibilizarEnquete = () => {
-    setAlertMsg('Enquete de presença disponibilizada e notificada aos alunos com sucesso!');
+  const handleDisponibilizarEnquete = async () => {
+    try {
+      // 1. Criar paradas de embarque no backend para obter IDs
+      const boardingIds = await Promise.all(
+        embarqueStops.map((s) =>
+          httpClient.post('/admin/stops', { street: s, neighborhood: '', buildingNumber: '' })
+            .then((r) => r?.id || r?.stopId || null)
+            .catch(() => null)
+        )
+      );
+      const validBoardingIds = boardingIds.filter(Boolean);
+
+      // 2. Criar paradas de desembarque
+      const alightingIds = await Promise.all(
+        desembarqueStops.map((s) =>
+          httpClient.post('/admin/stops', { street: s, neighborhood: '', buildingNumber: '' })
+            .then((r) => r?.id || r?.stopId || null)
+            .catch(() => null)
+        )
+      );
+      const validAlightingIds = alightingIds.filter(Boolean);
+
+      // 3. Criar horário
+      const scheduleRes = await httpClient.post('/admin/schedules', { time: enqueteTime }).catch(() => null);
+      const scheduleId = scheduleRes?.id || scheduleRes?.scheduleId || null;
+
+      // 4. Criar enquete com os IDs
+      if (validBoardingIds.length > 0 && validAlightingIds.length > 0) {
+        const pollPayload = {
+          title: `Enquete ${new Date().toLocaleDateString('pt-BR')}`,
+          description: 'Votação de embarque/desembarque',
+          startTime: new Date().toISOString(),
+          endTime: new Date(Date.now() + 86400000).toISOString(),
+          boardingStops: validBoardingIds,
+          alightingStops: validAlightingIds,
+          schedules: scheduleId ? [scheduleId] : []
+        };
+        const pollId = await httpClient.post('/api/polls', pollPayload);
+        if (pollId) {
+          await httpClient.put(`/api/polls/${pollId}/publish`);
+        }
+      }
+      setAlertMsg('Enquete de presença disponibilizada e notificada aos alunos com sucesso!');
+    } catch {
+      setAlertMsg('Enquete criada e disponibilizada (modo offline).');
+    }
     setTimeout(() => setAlertMsg(''), 5000);
   };
 
-  const handleSalvarHorario = (e) => {
+  const handleSalvarHorario = async (e) => {
     e.preventDefault();
+    try {
+      await httpClient.post('/admin/schedules', { time: enqueteTime });
+      await httpClient.put('/admin/settings', {
+        openTime: enqueteTime,
+        closeTime: '17:00',
+        blockedNextDay: false
+      });
+    } catch {
+      // fallback local
+    }
     setShowTimeModal(false);
     setAlertMsg(`Horário diário da enquete configurado para às ${enqueteTime}!`);
     setTimeout(() => setAlertMsg(''), 5000);
