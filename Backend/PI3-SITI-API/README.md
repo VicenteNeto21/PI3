@@ -91,6 +91,34 @@ Os testes de integração rodam utilizando o isolamento **`@WebMvcTest`**, e nã
 
 ---
 
+## 🐳 Executando com Docker (Completo via Docker Compose)
+
+Para subir o Banco de Dados MySQL já pré-configurado e populado (seeded) junto com a API de forma automática:
+
+```bash
+docker compose up --build -d
+```
+
+O container do banco de dados executará automaticamente na primeira inicialização os scripts:
+1. `01_create_db.sql` — Criação do banco `siti_db` e das tabelas.
+2. `02_procedures.sql` — Criação das procedures do sistema.
+3. `03_seed_completo.sql` — Inserção de dados iniciais e usuários de teste.
+
+### 👥 Usuários Pré-Cadastrados para Teste (Todos com senha: `123456`)
+
+| Perfil / Role | E-mail | Senha | Nome | Status |
+|---|---|---|---|---|
+| **Administrador (`ADMIN`)** | `admin@siti.com` | `123456` | Admin SITI | Ativo |
+| **Administrador (`ADMIN`)** | `adm@siti.com` | `123456` | Carlos Souza (ADM) | Ativo |
+| **Administrador (`ADMIN`)** | `coordenador@siti.com` | `123456` | Coordenador ADM 2 | Ativo |
+| **Motorista (`DRIVE`)** | `motorista@siti.com` | `123456` | Carlos Motorista | Ativo |
+| **Motorista (`DRIVE`)** | `motorista2@siti.com` | `123456` | Roberto Motorista 2 | Ativo |
+| **Passageiro / Aluno (`USER`)** | `aluno@siti.com` | `123456` | João Aluno | Ativo |
+| **Passageiro / Aluno (`USER`)** | `aluno2@siti.com` | `123456` | Maria Aluno 2 | Ativo |
+| **Pendente (`USER`)** | `gabriel.pendente@ufc.br` | `123456` | Gabriel Barbosa de Assis | Pendente |
+
+---
+
 ## 🐳 Executando com Docker (Isolado)
 
 Se você não quer instalar o Java ou o MySQL diretamente na sua máquina física, você pode construir e rodar a API de forma empacotada usando Docker.

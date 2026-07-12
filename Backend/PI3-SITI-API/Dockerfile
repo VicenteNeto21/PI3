@@ -1,5 +1,5 @@
 # Estágio 1: Build
-FROM maven:3.9.6-eclipse-temurin-21 AS build
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Otimização de Cache: Copia o pom.xml primeiro para baixar as dependências

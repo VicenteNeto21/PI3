@@ -2,6 +2,8 @@
 -- ProcCreateUser
 -- =============================================================================
 
+USE siti_db;
+
 DROP PROCEDURE IF EXISTS ProcCreateUser;
 DELIMITER $$
 CREATE PROCEDURE ProcCreateUser(

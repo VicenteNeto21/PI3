@@ -72,7 +72,7 @@ public class PassengerController {
 
     @GetMapping("/passenger/notices")
     public ResponseEntity<?> getNotices(@RequestAttribute("userActivate") String email, @RequestAttribute("role") String role) {
-        if (!"USER".equals(role) && !"ADMIN".equals(role)) {
+        if (!"USER".equals(role) && !"ADMIN".equals(role) && !"DRIVE".equals(role)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         return ResponseEntity.ok(service.getNotices(email));
@@ -85,7 +85,7 @@ public class PassengerController {
 
     @PostMapping("/passenger/notices/{id}/read")
     public ResponseEntity<?> markAsRead(@PathVariable Long id, @RequestAttribute("userActivate") String email, @RequestAttribute("role") String role) {
-        if (!"USER".equals(role) && !"ADMIN".equals(role)) {
+        if (!"USER".equals(role) && !"ADMIN".equals(role) && !"DRIVE".equals(role)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         try {
@@ -97,7 +97,7 @@ public class PassengerController {
 
     @PostMapping("/passenger/notices/read-all")
     public ResponseEntity<?> markAllAsRead(@RequestAttribute("userActivate") String email, @RequestAttribute("role") String role) {
-        if (!"USER".equals(role) && !"ADMIN".equals(role)) {
+        if (!"USER".equals(role) && !"ADMIN".equals(role) && !"DRIVE".equals(role)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         try {

@@ -54,6 +54,7 @@ INSERT INTO users (id, email, password, status, identifier_document, name) VALUE
 (4, 'aluno2@siti.com',      '$2a$10$o7ZFkRPu9xYXP.jMsy/bYeWlTtHu0xJ8Y6VqjOQexNktyPH4Gq.n2', 'Ativo', '00000000004', 'Maria Aluno 2'),
 (5, 'motorista2@siti.com',  '$2a$10$o7ZFkRPu9xYXP.jMsy/bYeWlTtHu0xJ8Y6VqjOQexNktyPH4Gq.n2', 'Ativo', '00000000005', 'Roberto Motorista 2'),
 (6, 'coordenador@siti.com', '$2a$10$o7ZFkRPu9xYXP.jMsy/bYeWlTtHu0xJ8Y6VqjOQexNktyPH4Gq.n2', 'Ativo', '00000000006', 'Coordenador ADM 2'),
+(7, 'adm@siti.com',         '$2a$10$o7ZFkRPu9xYXP.jMsy/bYeWlTtHu0xJ8Y6VqjOQexNktyPH4Gq.n2', 'Ativo', '00000000007', 'Carlos Souza (ADM)'),
 (10, 'gabriel.pendente@ufc.br', '$2a$10$o7ZFkRPu9xYXP.jMsy/bYeWlTtHu0xJ8Y6VqjOQexNktyPH4Gq.n2', 'Pendente', '10101010101', 'Gabriel Barbosa de Assis'),
 (11, 'larissa.pendente@ufc.br', '$2a$10$o7ZFkRPu9xYXP.jMsy/bYeWlTtHu0xJ8Y6VqjOQexNktyPH4Gq.n2', 'Pendente', '11011011011', 'Larissa Monteiro Albuquerque');
 
@@ -62,7 +63,8 @@ INSERT INTO users (id, email, password, status, identifier_document, name) VALUE
 -- ==============================================================================
 INSERT INTO administrators (id, name, city, state, id_address) VALUES
 (1, 'Admin SITI', 'Fortaleza', 'CE', 1),
-(6, 'Coordenador ADM 2', 'Cosmos', 'CE', 1);
+(6, 'Coordenador ADM 2', 'Cosmos', 'CE', 1),
+(7, 'Carlos Souza (ADM)', 'Fortaleza', 'CE', 1);
 
 -- ==============================================================================
 -- 4. MOTORISTAS

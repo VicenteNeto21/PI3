@@ -1,9 +1,10 @@
 -- ===================================================================
 -- SITI-API — full database creation
 -- ===================================================================
+CREATE DATABASE IF NOT EXISTS siti_db;
 CREATE DATABASE IF NOT EXISTS sitidb;
 
-USE sitidb;
+USE siti_db;
 
 -- ==============================================================================
 -- TABLES
