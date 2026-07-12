@@ -362,12 +362,22 @@ public class PassengerService {
                           (payload.get("nome") != null ? payload.get("nome").toString() : null);
             String phone = payload.get("phone") != null ? payload.get("phone").toString() : 
                            (payload.get("telefone") != null ? payload.get("telefone").toString() : null);
+            String registration = payload.get("registration") != null ? payload.get("registration").toString() : 
+                                  (payload.get("matricula") != null ? payload.get("matricula").toString() : null);
+            String institution = payload.get("institution") != null ? payload.get("institution").toString() : 
+                                 (payload.get("campus") != null ? payload.get("campus").toString() : null);
+
             if (name != null && !name.isBlank()) {
                 jdbc.update("UPDATE users SET name = ? WHERE id = ?", name, user.getId());
-                jdbc.update("UPDATE passengers SET name = ? WHERE id = ?", name, user.getId());
             }
             if (phone != null && !phone.isBlank()) {
                 jdbc.update("UPDATE passengers SET phone = ? WHERE id = ?", phone, user.getId());
+            }
+            if (registration != null && !registration.isBlank()) {
+                jdbc.update("UPDATE passengers SET registration_number = ? WHERE id = ?", registration, user.getId());
+            }
+            if (institution != null && !institution.isBlank()) {
+                jdbc.update("UPDATE passengers SET type = ? WHERE id = ?", institution, user.getId());
             }
         }
         return getProfile(email);
