@@ -52,7 +52,7 @@ public class PassengerController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         try {
-            return ResponseEntity.ok(service.getProfile(email));
+            return ResponseEntity.ok(service.updateProfile(email, payload));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
         }

@@ -62,6 +62,28 @@ public class AuthService {
         );
     }
 
+    public Map<String, Object> updateProfile(String email, Map<String, Object> payload) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Usuário não encontrado.");
+        }
+        Long userId = user.getId();
+        
+        String name = payload.get("name") != null ? payload.get("name").toString() : 
+                      (payload.get("nome") != null ? payload.get("nome").toString() : null);
+
+        if (name != null && !name.isBlank()) {
+            jdbcTemplate.update("UPDATE users SET name = ? WHERE id = ?", name, userId);
+            if (authRepository.hasAdministratorById(userId)) {
+                jdbcTemplate.update("UPDATE administrators SET name = ? WHERE id = ?", name, userId);
+            }
+            if (authRepository.hasDriverById(userId)) {
+                jdbcTemplate.update("UPDATE drivers SET name = ? WHERE id = ?", name, userId);
+            }
+        }
+        return getUserProfileByEmail(email);
+    }
+
     public Map<String, Object> login(String email, String password) {
         Cache cacheSession       = cacheManager.getCache("session");
         Cache cacheUsersActivate = cacheManager.getCache("usersActivate");

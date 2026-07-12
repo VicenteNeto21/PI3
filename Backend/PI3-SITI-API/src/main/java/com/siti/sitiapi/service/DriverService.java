@@ -337,4 +337,22 @@ public class DriverService {
                 "status", "Registrado"
         );
     }
+
+    public Map<String, Object> updateProfile(String email, Map<String, Object> payload) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            String name = payload.get("name") != null ? payload.get("name").toString() : 
+                          (payload.get("nome") != null ? payload.get("nome").toString() : null);
+            String phone = payload.get("phone") != null ? payload.get("phone").toString() : 
+                           (payload.get("telefone") != null ? payload.get("telefone").toString() : null);
+            if (name != null && !name.isBlank()) {
+                jdbc.update("UPDATE users SET name = ? WHERE id = ?", name, user.getId());
+                jdbc.update("UPDATE drivers SET name = ? WHERE id = ?", name, user.getId());
+            }
+            if (phone != null && !phone.isBlank()) {
+                jdbc.update("UPDATE drivers SET phone = ? WHERE id = ?", phone, user.getId());
+            }
+        }
+        return getProfile(email);
+    }
 }

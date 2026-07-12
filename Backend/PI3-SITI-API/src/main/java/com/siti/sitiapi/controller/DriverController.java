@@ -65,7 +65,7 @@ public class DriverController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         try {
-            return ResponseEntity.ok(driverService.getProfile(email));
+            return ResponseEntity.ok(driverService.updateProfile(email, payload));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage() != null ? e.getMessage() : e.getClass().getName()));
