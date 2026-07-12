@@ -46,6 +46,18 @@ public class PassengerController {
         }
     }
 
+    @PutMapping("/passenger/profile")
+    public ResponseEntity<?> updateProfile(@RequestAttribute("userActivate") String email, @RequestBody Map<String, Object> payload, @RequestAttribute("role") String role) {
+        if (!"USER".equals(role) && !"ADMIN".equals(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        try {
+            return ResponseEntity.ok(service.getProfile(email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @GetMapping("/passenger/trips")
     public ResponseEntity<?> getMyTrips(@RequestAttribute("userActivate") String email, @RequestAttribute("role") String role) {
         if (!"USER".equals(role) && !"ADMIN".equals(role)) {

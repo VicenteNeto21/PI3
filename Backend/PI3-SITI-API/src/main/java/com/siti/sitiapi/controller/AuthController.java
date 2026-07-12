@@ -25,6 +25,16 @@ public class AuthController {
         }
     }
 
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(@RequestAttribute("userActivate") String userActivate, @RequestBody Map<String, Object> payload) {
+        try {
+            Map<String, Object> profile = authService.getUserProfileByEmail(userActivate);
+            return ResponseEntity.ok(profile);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("erro", e.getMessage()));
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
