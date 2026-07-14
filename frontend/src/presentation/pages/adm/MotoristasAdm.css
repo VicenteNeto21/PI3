@@ -1,0 +1,195 @@
+.motoristas-adm-container {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
+  min-height: 100%;
+}
+
+.accordion-bar-figma {
+  background-color: #E6E6E6;
+  border-radius: 10px;
+  padding: 1.1rem 1.5rem;
+  margin-bottom: 0.85rem;
+  color: #1A1A1A;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border: none;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+}
+
+.accordion-bar-figma:hover {
+  background-color: #DCDCDC;
+}
+
+.accordion-bar-active {
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 0;
+  background-color: #D8D8D8;
+}
+
+.accordion-details-figma {
+  background-color: #F8F9FA;
+  border: 1px solid #E6E6E6;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: #333333;
+  font-size: 0.9rem;
+}
+
+.accordion-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.detail-item-figma span:first-child {
+  font-weight: 700;
+  color: #666;
+  font-size: 0.75rem;
+  display: block;
+  margin-bottom: 0.15rem;
+  text-transform: uppercase;
+}
+
+.detail-item-figma span:last-child {
+  font-weight: 600;
+  color: #1A1A1A;
+  font-size: 0.95rem;
+}
+
+.btn-fab-add {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2A0041 !important;
+  color: #FFFFFF !important;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1050;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(42, 0, 65, 0.3) !important;
+}
+
+.btn-fab-add:hover {
+  background-color: #380143 !important;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(42, 0, 65, 0.4) !important;
+}
+
+/* Modal Overlay & Card Figma com Borda Roxa */
+.modal-backdrop-figma {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-box-figma {
+  background: #FFFFFF;
+  border: 3px solid #9D00FF !important;
+  border-radius: 16px;
+  padding: 2.25rem 2rem;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: none !important;
+  position: relative;
+}
+
+.modal-title-figma {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  color: #1A1A1A;
+  margin-bottom: 1.5rem;
+}
+
+.label-figma-grey {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.input-figma-grey {
+  background-color: #EBEBEB !important;
+  border: 1px solid #E0E0E0 !important;
+  border-radius: 6px !important;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  width: 100%;
+  color: #2D2D2D !important;
+  margin-bottom: 0.85rem;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+}
+
+.input-figma-grey:focus {
+  outline: none;
+  background-color: #DDD !important;
+  border-color: #9D00FF !important;
+  box-shadow: none !important;
+}
+
+.btn-modal-cadastrar {
+  background-color: #9D00FF !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  margin-top: 0.75rem;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+}
+
+.btn-modal-cadastrar:hover {
+  background-color: #8A00E0 !important;
+  box-shadow: none !important;
+}
+
+.btn-close-modal-figma {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.btn-close-modal-figma:hover {
+  color: #333;
+}

@@ -1,0 +1,303 @@
+.alunos-adm-container {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
+  min-height: 100%;
+}
+
+.col-card-passageiros {
+  background-color: #FFFFFF;
+  border: 1px solid #5C2078;
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: none !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+}
+
+.card-passageiros-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.passageiro-pill-figma {
+  background-color: #E6E6E6;
+  color: #1A1A1A;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  border: none;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none !important;
+}
+
+.passageiro-pill-figma:hover {
+  background-color: #D6D6D6;
+  transform: translateY(-1px);
+}
+
+.passageiro-pill-figma:active {
+  transform: translateY(0);
+}
+
+.btn-fab-add {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2A0041 !important;
+  color: #FFFFFF !important;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1050;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(42, 0, 65, 0.3) !important;
+}
+
+.btn-fab-add:hover {
+  background-color: #380143 !important;
+  transform: scale(1.05);
+}
+
+/* Telas Internas (Formulário de Cadastro e Informações do Passageiro) */
+.form-passenger-wrapper {
+  background: transparent;
+  border: none !important;
+  box-shadow: none !important;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.custom-figma-header-container {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.banner-siti-cut-purple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110px;
+  background: linear-gradient(90deg, #080010 0%, #35005C 30%, #7600C2 60%, #9D00FF 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 48%, 290px 48%, 240px 100%, 0 100%);
+  border-radius: 8px 8px 0 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header-title-notch {
+  position: absolute;
+  top: 53px;
+  left: 290px;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.logo-siti-circles {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.circle-letter {
+  width: 34px;
+  height: 34px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2A0041;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.page-sub-title-figma {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  text-align: center;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .banner-siti-cut-purple {
+    clip-path: polygon(0 0, 100% 0, 100% 48%, 180px 48%, 140px 100%, 0 100%);
+  }
+  .header-title-notch {
+    left: 180px;
+  }
+  .page-sub-title-figma {
+    font-size: 1.05rem;
+  }
+  .circle-letter {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+}
+
+.section-card-figma {
+  background: #FFFFFF;
+  border: 1px solid #E2E2E2;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: none !important;
+}
+
+.section-title-figma {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.label-passenger-figma {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.input-passenger-figma {
+  background-color: #EBEBEB !important;
+  border: 1px solid #E0E0E0 !important;
+  border-radius: 6px !important;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  width: 100%;
+  color: #2D2D2D !important;
+  margin-bottom: 0.85rem;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+}
+
+.input-passenger-figma:focus {
+  outline: none;
+  background-color: #DDD !important;
+  border-color: #9D00FF !important;
+  box-shadow: none !important;
+}
+
+.file-box-figma {
+  background-color: #EBEBEB;
+  border: 1px solid #D8D8D8;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #444;
+  margin-bottom: 0.85rem;
+}
+
+.text-mandatory-figma {
+  color: #DC3545;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.btn-aprovar-figma {
+  background-color: #9D00FF !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem 2.75rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+}
+
+.btn-aprovar-figma:hover {
+  background-color: #8A00E0 !important;
+}
+
+.btn-reprovar-figma {
+  background-color: #9D00FF !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem 2.5rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none !important;
+  transition: background 0.2s ease;
+  opacity: 0.85;
+}
+
+.btn-reprovar-figma:hover {
+  opacity: 1;
+  background-color: #8A00E0 !important;
+}
+
+.btn-sair-figma {
+  background-color: #9D00FF !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem 3.5rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none !important;
+}
+
+.btn-sair-figma:hover {
+  background-color: #8A00E0 !important;
+}
+
+.modal-overlay-figma {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(20, 0, 35, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-card-figma {
+  background-color: #FFFFFF;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}

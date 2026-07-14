@@ -1,0 +1,223 @@
+-- =============================================================================
+-- ProcCreateUser
+-- =============================================================================
+
+USE siti_db;
+
+DROP PROCEDURE IF EXISTS ProcCreateUser;
+DELIMITER $$
+CREATE PROCEDURE ProcCreateUser(
+    IN p_email               VARCHAR(255),
+    IN p_password            VARCHAR(255),
+    IN p_identifier_document VARCHAR(50),
+    IN p_name                VARCHAR(255)
+)
+BEGIN
+INSERT INTO users (
+    email,
+    password,
+    status,
+    identifier_document,
+    name
+)
+VALUES (
+           p_email,
+           p_password,
+           'Pendente',
+           p_identifier_document,
+           p_name
+       );
+END$$
+DELIMITER ;
+
+-- =============================================================================
+-- ProcGetUserByEmail
+-- =============================================================================
+
+
+DROP PROCEDURE IF EXISTS ProcGetUserByEmail;
+DELIMITER $$
+CREATE PROCEDURE ProcGetUserByEmail(IN p_email VARCHAR(255))
+BEGIN
+SELECT id, email, status, identifier_document, name
+FROM users
+WHERE email = p_email;
+END$$
+DELIMITER ;
+
+
+-- =============================================================================
+-- ProcExistUserByEmail
+-- =============================================================================
+
+
+DROP PROCEDURE IF EXISTS ProcExistUserByEmail;
+DELIMITER $$
+CREATE PROCEDURE ProcExistUserByEmail(IN p_email VARCHAR(255))
+BEGIN
+SELECT EXISTS(SELECT 1 FROM users WHERE email = p_email) AS exists_user;
+END$$
+DELIMITER ;
+
+-- =============================================================================
+-- ProcGetUserByEmailAndPassword
+-- =============================================================================
+
+DROP PROCEDURE IF EXISTS ProcGetUserByEmailAndPassword;
+DELIMITER $$
+CREATE PROCEDURE ProcGetUserByEmailAndPassword(
+    IN p_email    VARCHAR(255),
+    IN p_password VARCHAR(255)
+)
+BEGIN
+SELECT id, email
+FROM users
+WHERE email = p_email AND password = p_password;
+END$$
+DELIMITER ;
+
+
+-- =============================================================================
+-- HasUserAdministratorById
+-- =============================================================================
+
+DROP PROCEDURE IF EXISTS HasUserAdministratorById;
+DELIMITER $$
+CREATE PROCEDURE HasUserAdministratorById(IN p_id BIGINT)
+BEGIN
+SELECT EXISTS(
+    SELECT 1 FROM administrators WHERE id = p_id
+) AS result;
+END$$
+DELIMITER ;
+
+
+-- =============================================================================
+-- ProcCreatePassenger
+-- =============================================================================
+
+DROP PROCEDURE IF EXISTS ProcCreatePassenger;
+DELIMITER $$
+CREATE PROCEDURE ProcCreatePassenger(
+    IN p_id               BIGINT,
+    IN p_birth_date       DATE,
+    IN p_phone            VARCHAR(20),
+    IN p_type             VARCHAR(50),
+    IN p_registration_number VARCHAR(50),
+    IN p_bond_proof       VARCHAR(255),
+    IN p_id_address       BIGINT
+)
+BEGIN
+INSERT INTO passengers (
+    id,
+    birth_date,
+    phone,
+    type,
+    registration_number,
+    bond_proof,
+    id_address
+)
+VALUES (
+           p_id,
+           p_birth_date,
+           p_phone,
+           p_type,
+           p_registration_number,
+           p_bond_proof,
+           p_id_address
+       );
+END$$
+DELIMITER ;
+
+-- =============================================================================
+-- ProcCreateDriver
+-- =============================================================================
+
+DROP PROCEDURE IF EXISTS ProcCreateDriver;
+DELIMITER $$
+CREATE PROCEDURE ProcCreateDriver(
+    IN p_id               BIGINT,
+    IN p_cnh_number       VARCHAR(20),
+    IN p_cnh_category     VARCHAR(10),
+    IN p_name             VARCHAR(255),
+    IN p_birth_date       DATE,
+    IN p_cnh_validity_date DATE,
+    IN p_phone            VARCHAR(20)
+)
+BEGIN
+INSERT INTO drivers (
+    id,
+    license_number,
+    license_category,
+    name,
+    birth_date,
+    license_expiry,
+    phone
+)
+VALUES (
+           p_id,
+           p_cnh_number,
+           p_cnh_category,
+           p_name,
+           p_birth_date,
+           p_cnh_validity_date,
+           p_phone
+       );
+END$$
+DELIMITER ;
+
+-- =============================================================================
+-- HasUserDriverById
+-- =============================================================================
+
+DROP PROCEDURE IF EXISTS HasUserDriverById;
+DELIMITER $$
+CREATE PROCEDURE HasUserDriverById(IN p_id BIGINT)
+BEGIN
+SELECT EXISTS(
+    SELECT 1 FROM drivers WHERE id = p_id
+) AS result;
+END$$
+DELIMITER ;
+
+-- =============================================================================
+-- ProcGetBoardingPassengersByStop
+-- =============================================================================
+
+DROP PROCEDURE IF EXISTS ProcGetBoardingPassengersByStop;
+DELIMITER $$
+CREATE PROCEDURE ProcGetBoardingPassengersByStop(IN p_stop_id BIGINT, IN p_poll_id BIGINT)
+BEGIN
+    SELECT 
+        u.name AS passenger_name,
+        u.email,
+        pv.voted_date,
+        s.time AS boarding_time
+    FROM passenger_votes pv
+    JOIN passengers p ON pv.id_passenger = p.id
+    JOIN users u ON p.id = u.id
+    JOIN schedules s ON pv.boarding_schedule_id = s.id
+    WHERE pv.boarding_stop_id = p_stop_id AND pv.poll_id = p_poll_id;
+END$$
+DELIMITER ;
+
+-- =============================================================================
+-- ProcGetAlightingPassengersByStop
+-- =============================================================================
+
+DROP PROCEDURE IF EXISTS ProcGetAlightingPassengersByStop;
+DELIMITER $$
+CREATE PROCEDURE ProcGetAlightingPassengersByStop(IN p_stop_id BIGINT, IN p_poll_id BIGINT)
+BEGIN
+    SELECT 
+        u.name AS passenger_name,
+        u.email,
+        pv.voted_date,
+        s.time AS alighting_time
+    FROM passenger_votes pv
+    JOIN passengers p ON pv.id_passenger = p.id
+    JOIN users u ON p.id = u.id
+    JOIN schedules s ON pv.alighting_schedule_id = s.id
+    WHERE pv.alighting_stop_id = p_stop_id AND pv.poll_id = p_poll_id;
+END$$
+DELIMITER ;

@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --siti-primary: #9D00FF;
+  --siti-primary-dark: #7A00C6;
+  --siti-primary-deep: #2A0041;
+  --siti-bg-dark: #000000;
+  --siti-radius-main: 8px;
+  --siti-radius-sm: 6px;
+}
+
+body {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ==========================================================
+   GLOBAL BOOTSTRAP OVERRIDES (ELIMINATING ALL BLUE)
+   ========================================================== */
+.text-primary {
+  color: var(--siti-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--siti-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--siti-primary) !important;
+  border-color: var(--siti-primary) !important;
+  border-radius: var(--siti-radius-main) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--siti-primary-dark) !important;
+  border-color: var(--siti-primary-dark) !important;
+  box-shadow: none !important;
+}
+
+.btn-outline-primary {
+  color: var(--siti-primary) !important;
+  border-color: var(--siti-primary) !important;
+  border-radius: var(--siti-radius-main) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+  background-color: var(--siti-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--siti-primary) !important;
+  box-shadow: none !important;
+}
+
+.btn {
+  box-shadow: none !important;
+}
+
+.spinner-border.text-primary {
+  color: var(--siti-primary) !important;
+}
+
+a {
+  color: var(--siti-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--siti-primary-dark);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--siti-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(157, 0, 255, 0.25) !important;
+}
+
+/* Padronização Global de Arredondamento (8px para cards, modais e botões) */
+.card,
+.modal-content,
+.btn,
+.form-control,
+.form-select,
+.alert {
+  border-radius: var(--siti-radius-main) !important;
+}

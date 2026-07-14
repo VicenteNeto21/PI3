@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: SITI-API
+
+  datasource:
+    url: jdbc:mysql://db:3306/siti_db?useUnicode=true&characterEncoding=UTF-8
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  mail:
+    host: ${MAIL_HOST:smtp.mailtrap.io}
+    port: ${MAIL_PORT:2525}
+    username: ${MAIL_USERNAME:test}
+    password: ${MAIL_PASSWORD:test}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

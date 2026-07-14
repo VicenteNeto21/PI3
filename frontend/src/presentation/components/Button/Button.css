@@ -1,0 +1,19 @@
+.custom-button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #9D00FF;
+  border-color: #9D00FF;
+  color: white;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.custom-button:hover,
+.custom-button:focus,
+.custom-button:active {
+  background-color: #8800DD !important;
+  border-color: #8800DD !important;
+  box-shadow: none !important;
+}

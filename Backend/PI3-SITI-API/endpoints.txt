@@ -1,0 +1,302 @@
+================================================================
+  SITI-API — Documentação Completa de Endpoints
+  Acesso: ADMIN | USER (passageiro) | DRIVE (motorista)
+================================================================
+
+────────────────────────────────────────────────────────────────
+AUTH  (/auth)
+────────────────────────────────────────────────────────────────
+
+POST   /auth/login
+  → Faz o login. Recebe { email, password }, retorna token JWT.
+  → Acesso: público
+
+GET    /auth/authenticate
+  → Valida o token JWT e retorna o perfil do usuário logado.
+  → Acesso: qualquer usuário autenticado
+
+POST   /auth/forgot-password
+  → Recebe { email } e envia link de redefinição de senha por e-mail.
+  → Acesso: público
+
+POST   /auth/reset-password
+  → Recebe { token, newPassword } e redefine a senha do usuário.
+  → Acesso: público
+
+
+────────────────────────────────────────────────────────────────
+USUÁRIOS (/users)
+────────────────────────────────────────────────────────────────
+
+POST   /users/register
+  → Cadastra um novo passageiro. Status inicial: "pendente" (aguarda homologação do admin).
+  → Recebe PassengerCreateRequest (nome, email, CPF, etc.)
+  → Acesso: público
+
+POST   /users/admin/register
+  → Cadastra um novo administrador diretamente no sistema.
+  → Acesso: público (⚠️ considerar restringir em produção)
+
+
+────────────────────────────────────────────────────────────────
+PASSAGEIRO (/passengers | /passenger)
+────────────────────────────────────────────────────────────────
+
+POST   /passengers/create
+  → Cadastro detalhado de passageiro (usado internamente / admin).
+  → Acesso: público
+
+GET    /passenger/profile
+  → Retorna o perfil completo do passageiro autenticado (nome, CPF, endereço, etc.)
+  → Acesso: USER, ADMIN
+
+GET    /passenger/routes
+  → Lista todas as rotas disponíveis no sistema.
+  → Acesso: USER, ADMIN
+
+GET    /passenger/trips
+  → Retorna todas as viagens (trips) em que o passageiro está vinculado,
+    com informações de rota, ônibus, data e status.
+  → Acesso: USER, ADMIN
+
+POST   /passenger/polls/vote
+  → Registra o voto do passageiro em uma enquete.
+  → Recebe VoteSubmitRequest: { pollId, boardingStopId, boardingScheduleId, alightingStopId, alightingScheduleId }
+  → Acesso: USER, ADMIN
+
+GET    /passenger/notices
+  → Retorna todos os avisos/comunicados cadastrados pelo admin.
+  → Acesso: USER, ADMIN
+
+GET    /passenger/contacts
+  → Retorna os contatos de suporte vinculados ao passageiro logado.
+  → Acesso: USER, ADMIN
+
+POST   /passenger/support
+  → Envia uma mensagem de suporte. Recebe { subject, message }.
+  → Acesso: USER, ADMIN
+
+POST   /passenger/photo
+  → Upload de foto de perfil do passageiro.
+  → Acesso: USER, ADMIN
+
+
+────────────────────────────────────────────────────────────────
+MOTORISTA (/drivers | /driver)
+────────────────────────────────────────────────────────────────
+
+POST   /drivers
+  → Cadastra um novo motorista. Recebe DriverCreateRequest.
+  → Acesso: ADMIN
+
+GET    /driver/profile
+  → Retorna o perfil completo do motorista autenticado (nome, CNH, telefone)
+    + lista de todas as trips pendentes/ativas vinculadas a ele, com dados do
+    veículo (apelido, modelo, placa, capacidade, ano, acessibilidade) e nome da rota.
+  → Acesso: DRIVE, ADMIN
+
+GET    /driver/vehicle
+  → Retorna dados do ônibus escalado para o motorista hoje
+    (apelido, modelo, placa, ano, capacidade, acessibilidade, status, nome da rota).
+  → Acesso: DRIVE, ADMIN
+
+GET    /driver/routes
+  → Lista as rotas do dia do motorista autenticado, com paradas e passageiros.
+  → Acesso: DRIVE, ADMIN
+
+PUT    /driver/routes/{id}/status
+  → Atualiza o status de uma viagem (ex: "Em andamento", "Concluída").
+  → Recebe { status: "..." }
+  → Acesso: DRIVE, ADMIN
+
+GET    /driver/routes/{routeId}/passengers
+  → Lista todos os passageiros vinculados a uma rota específica.
+  → Acesso: DRIVE, ADMIN
+
+PUT    /driver/passengers/{passengerId}/status
+  → Atualiza o status de embarque de um passageiro (ex: "Embarcado").
+  → Recebe { status: "..." }
+  → Acesso: DRIVE, ADMIN
+
+POST   /driver/failures
+  → Registra uma falha/problema no veículo.
+  → Recebe { vehiclePlate, issueType, severity, description }
+  → Acesso: DRIVE, ADMIN
+
+
+────────────────────────────────────────────────────────────────
+ADMIN (/admin)
+────────────────────────────────────────────────────────────────
+
+--- Homologação ---
+
+GET    /admin/pending-homologations
+  → Lista todos os usuários aguardando aprovação de cadastro.
+  → Acesso: ADMIN
+
+POST   /admin/homologate/{id}
+  → Aprova o cadastro de um usuário (muda status para ativo).
+  → Acesso: ADMIN
+
+POST   /admin/reject/{id}
+  → Rejeita o cadastro de um usuário.
+  → Acesso: ADMIN
+
+--- Passageiros ---
+
+GET    /admin/passengers
+  → Lista todos os passageiros cadastrados no sistema.
+  → Acesso: ADMIN
+
+POST   /admin/passengers
+  → Cria um novo passageiro manualmente.
+  → Acesso: ADMIN
+
+PUT    /admin/passengers/{id}
+  → Atualiza os dados de um passageiro.
+  → Acesso: ADMIN
+
+DELETE /admin/passengers/{id}
+  → Remove um passageiro do sistema.
+  → Acesso: ADMIN
+
+--- Motoristas ---
+
+GET    /admin/drivers
+  → Lista todos os motoristas cadastrados.
+  → Acesso: ADMIN
+
+POST   /admin/drivers
+  → Cria um novo motorista manualmente.
+  → Acesso: ADMIN
+
+--- Veículos (Ônibus) ---
+
+GET    /admin/vehicles
+  → Lista todos os ônibus cadastrados com seus dados completos
+    (apelido, placa, modelo, ano, capacidade, acessibilidade, status).
+  → Acesso: ADMIN
+
+POST   /admin/vehicles
+  → Cadastra um novo ônibus no sistema.
+  → Acesso: ADMIN
+
+--- Paradas (Stops) ---
+
+GET    /admin/stops
+  → Lista todos os pontos de parada cadastrados (id, rua, bairro, número).
+  → Utilizado para popular os <select> na criação de enquetes.
+  → Acesso: ADMIN
+
+POST   /admin/stops
+  → Cadastra um novo ponto de parada.
+  → Recebe { street, neighborhood, buildingNumber }
+  → Acesso: ADMIN
+
+--- Horários (Schedules) ---
+
+GET    /admin/schedules
+  → Lista todos os horários cadastrados (id, time).
+  → Utilizado para popular o <select> de horários na criação de enquetes.
+  → Acesso: ADMIN
+
+POST   /admin/schedules
+  → Cadastra um novo horário.
+  → Recebe { time: "HH:mm" }
+  → Acesso: ADMIN
+
+--- Rotas ---
+
+GET    /admin/routes
+  → Lista todas as rotas cadastradas com suas paradas e horários.
+  → Acesso: ADMIN
+
+POST   /admin/routes
+  → Cria uma rota manualmente com paradas e horários.
+  → Recebe { code, name, description, stops: [{ street, time }] }
+  → Acesso: ADMIN
+
+POST   /admin/routes/generate
+  → Gera uma rota + trip automaticamente a partir dos votos de uma enquete.
+  → Escolhe o menor ônibus ativo que caiba todos os passageiros.
+  → Se algum passageiro precisar de acessibilidade, exige ônibus acessível.
+  → Recebe RouteGenerationRequest: { pollId, startStopId, endStopId, driverId, departureTime }
+  → Vincula automaticamente os passageiros votantes à trip criada.
+  → Envia e-mail de confirmação para cada passageiro.
+  → Fecha a enquete ao final.
+  → Acesso: ADMIN
+
+PUT    /admin/routes/{routeId}/replace-vehicle
+  → Substitui o ônibus de uma rota em andamento hoje.
+  → Recebe { newBusId }
+  → Acesso: ADMIN
+
+--- Configurações ---
+
+GET    /admin/settings
+  → Retorna as configurações do sistema (horário de abertura/fechamento de votação, bloqueio).
+  → Acesso: ADMIN
+
+PUT    /admin/settings
+  → Atualiza as configurações do sistema.
+  → Acesso: ADMIN
+
+POST   /admin/settings/block-voting
+  → Bloqueia ou desbloqueia a votação para o próximo dia.
+  → Recebe { block: true|false }
+  → Acesso: ADMIN
+
+--- Comunicados ---
+
+POST   /admin/notices
+  → Cria um aviso/comunicado visível para todos os passageiros.
+  → Recebe { title, message }
+  → Acesso: ADMIN
+
+--- Suporte ---
+
+GET    /admin/support-messages
+  → Lista todas as mensagens de suporte enviadas pelos passageiros.
+  → Acesso: ADMIN
+
+--- Relatórios ---
+
+GET    /admin/reports/passengers
+  → Relatório de passageiros por rota (total de passageiros por linha).
+  → Acesso: ADMIN
+
+
+────────────────────────────────────────────────────────────────
+ENQUETES (/api/polls)
+────────────────────────────────────────────────────────────────
+
+POST   /api/polls
+  → Cria uma nova enquete com status "Pendente" (invisível para passageiros).
+  → Recebe { title, description, startTime, endTime, boardingStops: [ids], alightingStops: [ids], schedules: [ids] }
+  → Acesso: ADMIN
+
+PUT    /api/polls/{id}/publish
+  → Publica a enquete, mudando status de "Pendente" para "Ativa".
+  → Passageiros passam a ver e votar na enquete.
+  → Acesso: ADMIN
+
+GET    /api/polls
+  → Lista TODAS as enquetes (Pendente, Ativa e Fechada) para gerenciamento.
+  → Acesso: ADMIN
+
+GET    /api/polls/active
+  → Lista apenas as enquetes com status "Ativa" e dentro da janela de tempo.
+  → Usado pela tela de votação do passageiro.
+  → Acesso: USER, ADMIN
+
+GET    /api/polls/{id}/options
+  → Retorna as opções disponíveis de uma enquete específica:
+    { boardingStops: [...], alightingStops: [...], schedules: [...] }
+  → Usado para popular os <select> na tela de votação do passageiro.
+  → Acesso: USER, ADMIN
+
+
+================================================================
+  RESUMO DE STATUS DE ENQUETE
+  Pendente → Ativa (via /publish) → Fechada (via /generate)
+================================================================

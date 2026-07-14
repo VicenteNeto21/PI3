@@ -1,0 +1,80 @@
+.not-found-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #000000;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Purple radial glow in the center */
+.not-found-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    #000000 0%,
+    #2a003d 12%,
+    #7800c2 25%,
+    #9D00FF 40%,
+    #9D00FF 55%,
+    #6a00ac 75%,
+    #380143 90%,
+    #140018 100%
+  );
+  z-index: 0;
+}
+
+/* Glass logo image behind the text */
+.not-found-bg-image-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  max-width: 1350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.not-found-bg-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Content (text) on top */
+.not-found-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.not-found-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 2px;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.3);
+}
+
+.not-found-subtitle {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 0.5rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}

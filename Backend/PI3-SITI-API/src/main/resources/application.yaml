@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: SITI-API
+
+  profiles:
+    active: dev
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true

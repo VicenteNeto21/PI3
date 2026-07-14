@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+target/
+*.jar
+*.war
+
+# IDE & Temporary Files
+.agents/
+.vite/
+graphify-out/
+skills-lock.json
+.vscode/
+.idea/
+*.log
+.DS_Store
+
+# Environments
+.env
+.env.local

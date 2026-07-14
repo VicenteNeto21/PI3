@@ -1,0 +1,22 @@
+.custom-input {
+  padding: 0.8rem 1rem;
+  border: none;
+  background-color: #EFEFEF;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #333;
+  height: 48px;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+.custom-input::placeholder {
+  color: #999;
+  font-weight: 500;
+}
+
+.custom-input:focus {
+  background-color: #E5E5E5;
+  box-shadow: 0 0 0 2px rgba(157, 0, 255, 0.3);
+  border: none;
+}
